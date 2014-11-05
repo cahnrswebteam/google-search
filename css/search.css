@@ -1,0 +1,42 @@
+.search-section {
+	border: 3px solid #697277;
+	padding: 2rem 0 3rem 0;
+}
+#search-nav a {
+	display: inline-block;
+	color: #fff;
+	padding: 0.5rem 2rem;
+	vertical-align: bottom;
+	background-image: url(../images/search-tabs.png);
+	background-repeat: no-repeat;
+	background-position: -400px center;
+}
+#search-nav a.activesearch {
+	background-position: 0 center;
+}
+
+.search-result {
+	overflow: auto;
+	padding-bottom: 1.5rem;
+	margin: 0 2rem;
+}
+.search-result h2 {
+	font-size: 1.2rem;
+	margin: 0;
+	padding: 0;
+}
+.search-result .search-image {
+	width: 6rem;
+	height: 6rem;
+	float: left;
+}
+.search-result .search-text {
+	margin-left: 7rem;
+}
+.search-url {
+	font-weight: bold;
+}
+#search-wtfrc .search-result .search-text {
+	margin-left: 0;
+}
+
