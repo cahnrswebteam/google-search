@@ -28,7 +28,7 @@ class init_google_search{
 			\add_action( 'wp_enqueue_scripts', array( $this , 'add_scripts' ) );
 		}
 		
-		if( isset( $_GET['search-service'] ) ){
+		if( isset( $_GET['is-search-service'] ) ){
 			\add_filter( 'template_include', array( $this , 'search_service' ) , 99 );
 		}
 	}
@@ -42,22 +42,17 @@ class init_google_search{
 				'post_type' => 'page',
 				'post_status' => 'publish',
 				);
-			\wp_insert_post( $args );
+			\wp_insert_post( $args ); 
 		}
 	}
 	
-	public function add_search_public( $atts = array( 'type' => 'wsu' , 'service' => false ) ){
-		$this->search_model = new search_model();
+	public function add_search_public( $args = array() ){
+		$this->search_model = new search_model( $args );
 		$this->search_controller = new search_controller( $this->search_model );
-		$this->search_controller->search( $atts['type'] );
+		$this->search_controller->do_search();
 		$this->search_view = new search_view( $this->search_controller , $this->search_model );
-		
 		ob_start();
-		if( !$atts['service'] ){
-			$this->search_view->output_public();
-		} else {
-			$this->search_view->output_service();
-		}
+		$this->search_view->output_public();
 		return ob_get_clean();
 	}
 	
@@ -78,57 +73,100 @@ class init_google_search{
 
 class search_model{
 	private $api_key = 'AIzaSyB7d9IJ6IVhch-VZ-cIPak08Lvq5XqWd34';
-	public $n;
-	public $term;
+	public $type = 'google-wsu';
+	public $view_type = 'public';
+	public $count = 10;
+	public $term = '';
+	public $sites = array(
+		'google-wsu' => '004797236515831676218%3Ajjbaaricka8',
+		'google-related' => '004797236515831676218:ryuu0i9rqi8',
+		);
 	public $site = '004797236515831676218%3Ajjbaaricka8';
 	public $query;
-	public $results = array();
+	public $results = false;
 	public $total_results = 0;
 	
-	public function set_query_params(){
-		$this->n = '10';
-		$this->term =  ( isset( $_GET['term'] ) )? $_GET['term'] : '';
-		$this->term = urlencode( $this->term );
-	}
-	
-	public function set_google_query(){
-		$this->query = 'https://www.googleapis.com/customsearch/v1?q='.
-			$this->term.
-			'&cx='.$this->site.
-			'&key='.$this->api_key.'&num=10';
-	}
-	
-	public function set_wtfrc_query(){
-		$this->query = 'http://jenny.tfrec.wsu.edu/onestop/qWTFRC.php?shorten=1&terms='.$this->term.'&firstrec=1&nreturn=10';
-	}
-	
-	public function set_wtfrc_results(){
-		$res = @file_get_contents( $this->query );
-		if( $res ){
-			$res = json_decode( $res , true );
-			if( $res ){
-				$this->results = $res['qtfrec']['results'];
-				foreach( $this->results as $res_key => &$res_value ){
-					$res_value = reset( $res_value );
-					$res_value['title'] = strip_tags( html_entity_decode( $res_value['title'] ) );
-					$res_value['link'] = strip_tags( html_entity_decode( $res_value['url'] ) );
-					$res_value['snippet'] = strip_tags( html_entity_decode( $res_value['sectxt'] ) );
-				}
-				
-				$this->total_results = $res[ 'numRecords'];
-			}
+	public function __construct( $args = array() ){
+		if( isset( $args['type'] ) ) $this->type = $args['type'];
+		if( array_key_exists( $this->type , $this->sites ) ) $this->site = $this->sites[ $this->type ];
+		if( isset( $args['count'] ) ) $this->count = $args['count'];
+		if( isset( $args['view_type'] ) ) $this->view_type = $args['view_type'];
+		if( isset( $args['term'] ) ) { 
+			$this->term =  $args['term']; 
+		}
+		else if (  $_GET['term'] ) {
+			$this->term = $_GET['term'] ;
 		}
 	}
 	
-	public function set_google_results(){
-		$res = @file_get_contents( $this->query );
-		//$res = @file_get_contents( DIR.'testing/json.php' );
-		if( $res ){
-			$res = json_decode( $res , true );
-			if( $res ){
-				$this->results = $res['items'];
-				$this->total_results = $res[ 'queries' ]['request']['totalResults'];
-			}
+	public function set_term( $term = ''){
+		$this->term = $term;
+	}
+	
+	public function set_type( $type = 'google-wsu'){
+		$this->type = $type;
+	}
+	
+	public function set_query(){
+		switch ( $this->type ){
+			case 'google-related': 
+			case 'google-wsu':
+				$query = 'https://www.googleapis.com/customsearch/v1?';
+				$query .= 'q='.urlencode( $this->term );
+				$query .= '&cx='.$this->site;
+				$query .= '&key='.$this->api_key;
+				$query .= '&num='.$this->count;
+				$this->query = $query;
+				break;
+			case 'wtfrc': 
+				$query = 'http://jenny.tfrec.wsu.edu/onestop/qWTFRC.php?';
+				$query .= 'shorten=1';
+				$query .= '&terms='.urlencode( $this->term );
+				$query .= '&firstrec=1';
+				$query .= '&nreturn='.$this->count;
+				$this->query = $query;
+				break;
+		}
+	}
+	
+	public function set_results(){
+		switch ( $this->type ){
+			case 'google-related':
+			case 'google-wsu':
+				$res = @file_get_contents( $this->query );
+				if( $res ){
+					$res = json_decode( $res , true );
+					if( $res ){
+						$this->results = $res['items'];
+						$this->total_results = $res[ 'queries' ]['request']['totalResults'];
+					} else {
+						$this->results = false;
+					}
+				} else {
+					$this->results = false;
+				}
+				break;
+			case 'wtfrc': 
+				$res = @file_get_contents( $this->query );
+				if( $res ){
+					$res = json_decode( $res , true );
+					if( $res ){
+						$this->results = $res['qtfrec']['results'];
+						foreach( $this->results as $res_key => &$res_value ){
+							$res_value = reset( $res_value );
+							$res_value['title'] = strip_tags( html_entity_decode( $res_value['title'] ) );
+							$res_value['link'] = strip_tags( html_entity_decode( $res_value['url'] ) );
+							$res_value['snippet'] = strip_tags( html_entity_decode( $res_value['sectxt'] ) );
+						}
+						
+						$this->total_results = $res[ 'numRecords'];
+					} else {
+						$this->results = false;
+					} 
+				} else {
+					$this->results = false;
+				}
+				break;
 		}
 	}
 }
@@ -141,19 +179,9 @@ class search_controller{
 		$this->search_model = $model;
 	}
 	
-	public function search( $type = 'wsu' ){
-		
-		$this->search_model->set_query_params();
-		switch( $type ){
-			case 'wtfrc':
-				$this->search_model->set_wtfrc_query();
-				$this->search_model->set_wtfrc_results();
-				break;
-			default:
-				$this->search_model->set_google_query();
-				$this->search_model->set_google_results();
-				break;
-		}
+	public function do_search(){
+		$this->search_model->set_query();
+		$this->search_model->set_results();
 	}
 }
 
@@ -167,13 +195,19 @@ class search_view {
 	}
 	
 	public function output_public(){
-		include 'inc/public.php';
-	}
-	
-	public function output_service(){
-		foreach( $this->search_model->results as $result ){
-    		include 'inc/search-result.php';
-		};
+		switch ( $this->search_model->view_type ){
+			case 'public':
+				include 'inc/public.php';
+				break;
+			case 'service':
+				if( $this->search_model->results ){
+					foreach( $this->search_model->results as $result ){
+						include 'inc/search-result.php';
+					}; // end foreach
+				} // end if
+				break;
+		}
+		
 	}
 }
 

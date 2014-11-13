@@ -1,7 +1,14 @@
 .search-section {
 	border: 3px solid #697277;
 	padding: 2rem 0 3rem 0;
+	min-height: 500px;
 }
+
+.search-section.loading-search {
+	background: url(../images/loader.gif) no-repeat center center;
+	background-size: 150px 150px;
+}
+
 #search-nav a {
 	display: inline-block;
 	color: #fff;

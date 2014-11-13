@@ -6,14 +6,14 @@ Your search for <strong><?php echo $this->search_model->term;?></strong> returne
     </div>
 </header>
 <nav id="search-nav">
-	<a href="#" class="activesearch search-loaded" data-type="wsu" >Search WSU</a><a href="#" data-type="related" >Search Related Websites</a><a href="#" data-type="wtfrc">Search WTFRC Reports</a>
+	<a href="#" class="activesearch search-loaded" data-type="google-wsu" >Search WSU</a><a class="" href="#" data-type="google-related" >Search Related Websites</a><a class="" href="#" data-type="wtfrc">Search WTFRC Reports</a>
 </nav>
-<div id="search-wsu" class="search-section">
+<div id="google-wsu" class="search-section">
 	<?php foreach( $this->search_model->results as $result ){
     	include 'search-result.php';
 	};?>
 </div>
-<div id="search-related" class="search-section">
+<div id="google-related" class="search-section loading-search">
 </div>
-<div id="search-wtfrc" class="search-section">
+<div id="wtfrc" class="search-section loading-search">
 </div>

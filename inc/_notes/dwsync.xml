@@ -3,4 +3,6 @@
 <file name="public.php" server="ftp.wpdev.cahnrs.wsu.edu//public_html/topics.wpdev.cahnrs.wsu.edu/wp-content/plugins/google-search/" local="130596139383855030" remote="130596175200000000" Dst="1" />
 <file name="service.php" server="ftp.wpdev.cahnrs.wsu.edu//public_html/topics.wpdev.cahnrs.wsu.edu/wp-content/plugins/google-search/" local="130596127843611858" remote="130596163800000000" Dst="1" />
 <file name="search-result.php" server="ftp.wpdev.cahnrs.wsu.edu//public_html/topics.wpdev.cahnrs.wsu.edu/wp-content/plugins/google-search/" local="130596138743989976" remote="130596174600000000" Dst="1" />
+<file name="public.php" server="ftp.wpdev.cahnrs.wsu.edu//public_html/devsite.wpdev.cahnrs.wsu.edu/wp-content/plugins/google-search/" local="130603109203757681" remote="130603144800000000" Dst="1" />
+<file name="service.php" server="ftp.wpdev.cahnrs.wsu.edu//public_html/devsite.wpdev.cahnrs.wsu.edu/wp-content/plugins/google-search/" local="130603110401740164" remote="130603146000000000" Dst="1" />
 </dwsync>
