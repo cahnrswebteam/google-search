@@ -78,10 +78,14 @@ class search_model{
 	public $count = 10;
 	public $term = '';
 	public $sites = array(
-		'google-wsu' => '004797236515831676218%3Ajjbaaricka8',
+		'google-wsu' => '004797236515831676218:cgtd4l4bzpi',
 		'google-related' => '004797236515831676218:ryuu0i9rqi8',
 		);
-	public $site = '004797236515831676218%3Ajjbaaricka8';
+	public $site = '004797236515831676218:cgtd4l4bzpi';
+	public $siteSearch  = false;
+	public $sort = false;
+	public $content_type = false;
+	public $searchsite = false;
 	public $query;
 	public $results = false;
 	public $total_results = 0;
@@ -91,6 +95,9 @@ class search_model{
 		if( array_key_exists( $this->type , $this->sites ) ) $this->site = $this->sites[ $this->type ];
 		if( isset( $args['count'] ) ) $this->count = $args['count'];
 		if( isset( $args['view_type'] ) ) $this->view_type = $args['view_type'];
+		if( isset( $args['sort'] ) ) $this->sort = $args['sort'];
+		if( isset( $args['filetype'] ) ) $this->content_type = $args['filetype'];
+		if( isset( $args['searchsite'] ) ) $this->searchsite = $args['searchsite']; 
 		if( isset( $args['term'] ) ) { 
 			$this->term =  $args['term']; 
 		}
@@ -116,6 +123,9 @@ class search_model{
 				$query .= '&cx='.$this->site;
 				$query .= '&key='.$this->api_key;
 				$query .= '&num='.$this->count;
+				if( $this->sort ) $query .= '&sort='.$this->sort;
+				if( $this->content_type ) $query .= '&fileType='.$this->content_type;
+				if( $this->searchsite ) $query .= '&siteSearch='.$this->searchsite;
 				$this->query = $query;
 				break;
 			case 'wtfrc': 
@@ -131,6 +141,7 @@ class search_model{
 	
 	public function set_results(){
 		switch ( $this->type ){
+			
 			case 'google-related':
 			case 'google-wsu':
 				$res = @file_get_contents( $this->query );

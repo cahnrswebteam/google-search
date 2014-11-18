@@ -9,11 +9,20 @@ Your search for <strong><?php echo $this->search_model->term;?></strong> returne
 	<a href="#" class="activesearch search-loaded" data-type="google-wsu" >Search WSU</a><a class="" href="#" data-type="google-related" >Search Related Websites</a><a class="" href="#" data-type="wtfrc">Search WTFRC Reports</a>
 </nav>
 <div id="google-wsu" class="search-section">
+	<?php include 'toolbar-google.php';?>
+    <div class="cs-results-content">
+    <?php if( is_array( $this->search_model->results ) ):?>
 	<?php foreach( $this->search_model->results as $result ){
     	include 'search-result.php';
 	};?>
+    <?php endif;?>
+    </div>
 </div>
-<div id="google-related" class="search-section loading-search">
+<div id="google-related" class="search-section">
+<div class="cs-results-content loading-search">
 </div>
-<div id="wtfrc" class="search-section loading-search">
+</div>
+<div id="wtfrc" class="search-section">
+<div class="cs-results-content loading-search">
+</div>
 </div>
