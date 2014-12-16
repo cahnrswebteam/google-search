@@ -60,8 +60,8 @@ class init_google_search{
 	
 	public function add_scripts(){
 		if ( is_page( 'site-search' ) ) {
-			 \wp_enqueue_style( 'search-css', URL.'/css/search.css', array(), '0.0.1'  );
-			 \wp_enqueue_script( 'search-js', URL.'/js/search.js', array(), '0.0.1'  );
+			 \wp_enqueue_style( 'search-css', URL.'/css/search.css', array(), '0.0.2'  );
+			 \wp_enqueue_script( 'search-js', URL.'/js/search.js', array(), '0.0.2'  );
   		}
 	}
 	
@@ -77,9 +77,12 @@ class search_model{
 	public $view_type = 'public';
 	public $count = 10;
 	public $term = '';
+	public $start = 0;
 	public $sites = array(
 		'google-wsu' => '004797236515831676218:cgtd4l4bzpi',
 		'google-related' => '004797236515831676218:ryuu0i9rqi8',
+		'google-technical' => '004797236515831676218:rjprotvk0ra',
+		'google-universities' => '004797236515831676218:0s5ex8riqsk',
 		);
 	public $site = '004797236515831676218:cgtd4l4bzpi';
 	public $siteSearch  = false;
@@ -98,6 +101,7 @@ class search_model{
 		if( isset( $args['sort'] ) ) $this->sort = $args['sort'];
 		if( isset( $args['filetype'] ) ) $this->content_type = $args['filetype'];
 		if( isset( $args['searchsite'] ) ) $this->searchsite = $args['searchsite']; 
+		if( isset( $args['start'] ) ) $this->start = $args['start'];
 		if( isset( $args['term'] ) ) { 
 			$this->term =  $args['term']; 
 		}
@@ -116,7 +120,9 @@ class search_model{
 	
 	public function set_query(){
 		switch ( $this->type ){
-			case 'google-related': 
+			case 'google-technical':
+			case 'google-related':
+			case 'google-universities': 
 			case 'google-wsu':
 				$query = 'https://www.googleapis.com/customsearch/v1?';
 				$query .= 'q='.urlencode( $this->term );
@@ -126,10 +132,11 @@ class search_model{
 				if( $this->sort ) $query .= '&sort='.$this->sort;
 				if( $this->content_type ) $query .= '&fileType='.$this->content_type;
 				if( $this->searchsite ) $query .= '&siteSearch='.$this->searchsite;
+				if( $this->start ) $query .= '&start='.$this->start; 
 				$this->query = $query;
 				break;
 			case 'wtfrc': 
-				$query = 'http://jenny.tfrec.wsu.edu/onestop/qWTFRC.php?';
+				$query = 'http://jenny.tfrec.wsu.edu/onestop/qWTFRConTitles.php?';
 				$query .= 'shorten=1';
 				$query .= '&terms='.urlencode( $this->term );
 				$query .= '&firstrec=1';
@@ -141,15 +148,25 @@ class search_model{
 	
 	public function set_results(){
 		switch ( $this->type ){
-			
+			case 'google-technical':
 			case 'google-related':
+			case 'google-universities':
 			case 'google-wsu':
-				$res = @file_get_contents( $this->query );
+				//$res = @file_get_contents( $this->query );
+				$res = @file_get_contents( DIR.'/testing/json.php' );
 				if( $res ){
 					$res = json_decode( $res , true );
 					if( $res ){
 						$this->results = $res['items'];
-						$this->total_results = $res[ 'queries' ]['request']['totalResults'];
+						foreach( $this->results as &$result ){
+							if( isset( $result['pagemap']['cse_thumbnail'] ) ){
+								$result['img'] = $result['pagemap']['cse_thumbnail'][0]['src'];
+							} else {
+								$result['img'] = URL.'/images/blank-image.png';
+							}
+						}
+						$this->total_results = $res[ 'queries' ]['request'][0]['totalResults'];
+						//var_dump( $res[ 'queries' ]['request'] );
 					} else {
 						$this->results = false;
 					}
@@ -168,6 +185,7 @@ class search_model{
 							$res_value['title'] = strip_tags( html_entity_decode( $res_value['title'] ) );
 							$res_value['link'] = strip_tags( html_entity_decode( $res_value['url'] ) );
 							$res_value['snippet'] = strip_tags( html_entity_decode( $res_value['sectxt'] ) );
+							$res_value['img'] = URL.'/images/blank-image.png';
 						}
 						
 						$this->total_results = $res[ 'numRecords'];
@@ -212,6 +230,8 @@ class search_view {
 				break;
 			case 'service':
 				if( $this->search_model->results ){
+					
+					echo '<div class="search-totals"><strong>' . $this->search_model->total_results .'</strong> results returned.</div>';
 					foreach( $this->search_model->results as $result ){
 						include 'inc/search-result.php';
 					}; // end foreach

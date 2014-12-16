@@ -1,3 +1,39 @@
+#search-header {
+	padding: 1rem 0 2rem;
+}
+#search-header > .search-text {
+	font-size: 1.3rem;
+	padding-bottom: 1rem;
+}
+#search-header > .search-text strong {
+	color: #981e33;
+	}
+#search-header label {
+	font-size: 1.3rem;
+	height: 40px;
+	line-height: 40px;
+}
+#search-header input {
+	font-size: 1.3rem;
+	height: 40px;
+	line-height: 40px;
+	padding: 0;
+	outline: 0;
+	text-indent: 1rem;
+	vertical-align: top
+}
+#search-header a {
+	display: inline-block;
+	font-size: 1.2rem;
+	font-weight: bold;
+	color: #fff;
+	background: #981e33;
+	height: 40px;
+	line-height: 40px;
+	padding: 0 1rem;
+	vertical-align: top;
+}
+
 .search-section {
 	border: 3px solid #697277;
 	padding: 2rem 0 3rem 0;
@@ -15,19 +51,29 @@
 #search-nav a {
 	display: inline-block;
 	color: #fff;
-	padding: 0.5rem 2rem;
+	padding: 0.5rem 1.5rem;
 	vertical-align: bottom;
 	background-image: url(../images/search-tabs.png);
 	background-repeat: no-repeat;
 	background-position: -400px center;
 }
+
 #search-nav a.activesearch {
 	background-position: 0 center;
+}
+
+#search-nav a.activesearch .tooltip-icon {
+	background: #999;
 }
 
 .search-result {
 	overflow: auto;
 	padding-bottom: 1.5rem;
+	margin: 0 2rem;
+}
+
+.search-totals {
+	padding: 0.5rem 0;
 	margin: 0 2rem;
 }
 .search-result h2 {
@@ -45,6 +91,7 @@
 }
 .search-url {
 	font-weight: bold;
+	word-wrap: break-word;
 }
 #search-wtfrc .search-result .search-text {
 	margin-left: 0;
@@ -121,5 +168,47 @@
 	padding: 0.25rem 1rem;
 	border-bottom: 1px solid #ccc;
 	border-right: 1px solid #ccc;
+}
+
+.search-section .cs-more-results {
+	display: inline-block;
+	margin: 1rem 2rem 0 ;
+	padding: 0.5rem 2rem;
+	font-size: 1rem;
+	font-weight: bold;
+	color: #fff;
+	background: #981e33;
+}
+/**
+ * Tool Tip Plugin
+**/
+.tooltip-icon {
+	display: inline-block;
+	text-align: center;
+	height: 15px;
+	width: 15px;
+	font-size: 10px;
+	background: #666;
+	color: #fff;
+	line-height: 15px;
+	border-radius: 7px;
+	margin-left: 8px;
+	position: relative;
+}
+.tooltip-icon:before {
+	content: "i";
+}
+.tooltip-wrapper {
+	position: absolute;
+	bottom: 50%;
+	width: 200px;
+	padding: 1rem;
+	background-color: #fff;
+	border-radius: 3px;
+	border: 1px solid #ccc;
+	color: #555;
+	font-size: 11px;
+	text-align: left;
+	z-index: 500;
 }
 

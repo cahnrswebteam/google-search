@@ -4,8 +4,6 @@
     </a>
 	<ul>
     	<li>
-        	<input type="text" class="cs-term" value="<?php echo $this->search_model->term;?>" />
-        </li><li>
         	<a href="#">
             	Sort By
             </a>
@@ -33,7 +31,7 @@
                     <input type="checkbox" value="doc" />
                 </li>
             </ul>
-        </li><li>
+        </li><!--<li>
         	<a href="#">
             	Site
             </a>
@@ -51,6 +49,6 @@
                     <input type="checkbox" value="entomology.tfrec.wsu.edu" />
                 </li>
             </ul>
-        </li>
+        </li>-->
     </ul>
 </section>

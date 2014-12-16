@@ -1,9 +1,7 @@
 <?php namespace cahnrswp\cahnrs\googlesearch;?>
 <div class="search-result">
-	<?php if( isset( $result['pagemap']['cse_thumbnail'] ) ):?>
-    <div class="search-image" style="background-image: url(<?php echo $result['pagemap']['cse_thumbnail'][0]['src'];?>);">
+    <div class="search-image" style="background-image: url(<?php echo $result['img'];?>);">
     </div>
-    <?php endif;?>
     <div class="search-text<?php if( isset( $result['pagemap']['cse_thumbnail'] ) ) echo ' has-image';?>">
         <h2>
             <a href="<?php echo $result['link'];?>" ><?php echo $result['title'];?></a>
