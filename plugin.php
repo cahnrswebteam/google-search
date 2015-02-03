@@ -152,8 +152,8 @@ class search_model{
 			case 'google-related':
 			case 'google-universities':
 			case 'google-wsu':
-				//$res = @file_get_contents( $this->query );
-				$res = @file_get_contents( DIR.'/testing/json.php' );
+				$res = @file_get_contents( $this->query );
+				//$res = @file_get_contents( DIR.'/testing/json.php' );
 				if( $res ){
 					$res = json_decode( $res , true );
 					if( $res ){
@@ -175,7 +175,14 @@ class search_model{
 				}
 				break;
 			case 'wtfrc': 
-				$res = @file_get_contents( $this->query );
+				//$res = @file_get_contents( $this->query );
+				
+				$res = wp_remote_get( $this->query  );
+				
+				$res = wp_remote_retrieve_body( $res );
+				
+				$res = mb_convert_encoding ( $res , "UTF-8" );
+				
 				if( $res ){
 					$res = json_decode( $res , true );
 					if( $res ){
