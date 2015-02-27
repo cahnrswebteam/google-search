@@ -6,15 +6,15 @@
     </div>
 </header>
 <nav id="search-nav">
-	<a href="#" class="activesearch search-loaded" data-type="google-wsu" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pellentesque lectus ut sem convallis, non porta nisi pulvinar. Cras vestibulum, diam vel blandit semper, felis mi porttitor lorem, a egestas dolor sem in magna. Proin turpis sem, consequat ut porttitor et, congue id urna." >
+	<a href="#" class="activesearch search-loaded" data-type="google-wsu" data-tooltip="This tab searches the entire WSU domain.  These are considered the most relevant resources for Washington-based information.." >
     	WSU
-    </a><a class="" href="#" data-type="google-universities" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pellentesque lectus ut sem convallis, non porta nisi pulvinar. Cras vestibulum, diam vel blandit semper, felis mi porttitor lorem, a egestas dolor sem in magna. Proin turpis sem, consequat ut porttitor et, congue id urna." >
+    </a><a class="" href="#" data-type="google-universities" data-tooltip="This tab searches tree fruit resources from other Land-Grant universities across the U.S. including but not limited to: University of California, Oregon State University, Cornell University, Michigan State University, Pennsylvania State University, and Clemson University." >
     	Other Universities
-    </a><a class="" href="#" data-type="google-related" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pellentesque lectus ut sem convallis, non porta nisi pulvinar. Cras vestibulum, diam vel blandit semper, felis mi porttitor lorem, a egestas dolor sem in magna. Proin turpis sem, consequat ut porttitor et, congue id urna." >
+    </a><a class="" href="#" data-type="google-related" data-tooltip="This tab searches the databases for the Good Fruit Grower, American/Western Fruit Grower and Fruit Grower News magazines." >
         Trade Articles
-    </a><a class="" href="#" data-type="wtfrc" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pellentesque lectus ut sem convallis, non porta nisi pulvinar. Cras vestibulum, diam vel blandit semper, felis mi porttitor lorem, a egestas dolor sem in magna. Proin turpis sem, consequat ut porttitor et, congue id urna.">
+    </a><a class="" href="#" data-type="wtfrc" data-tooltip="This tab searches final research reports contained in the Washington Tree Fruit Research Commission database.">
     	WTFRC Reports
-    </a><a class="" href="#" data-type="google-technical" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pellentesque lectus ut sem convallis, non porta nisi pulvinar. Cras vestibulum, diam vel blandit semper, felis mi porttitor lorem, a egestas dolor sem in magna. Proin turpis sem, consequat ut porttitor et, congue id urna.">
+    </a><a class="" href="#" data-type="google-technical" data-tooltip="This tab searches technical and scientific journals.  Some articles may be available in their entirety while others may only provide an abstract and require a fee to download the entire article.  Journals include but are not limited to: HortScience, HortTechnology, Journal of the American Pomological Society, and Acta Horticulturae.">
     	Technical Articles</a>
 </nav>
 <div id="google-wsu" class="search-section">
