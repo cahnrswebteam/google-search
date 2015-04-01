@@ -192,7 +192,7 @@ class search_model{
 							$res_value['title'] = strip_tags( html_entity_decode( $res_value['title'] ) );
 							$res_value['link'] = strip_tags( html_entity_decode( $res_value['url'] ) );
 							$res_value['snippet'] = strip_tags( html_entity_decode( $res_value['sectxt'] ) );
-							$res_value['img'] = URL.'/images/blank-image.png';
+							$res_value['img'] = URL.'images/WTFRC_Logo.jpg';
 						}
 						
 						$this->total_results = $res[ 'numRecords'];
